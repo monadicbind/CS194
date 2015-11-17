@@ -80,7 +80,7 @@ instance HasVars VarExprT where
 The below solution for Ex:6 is very interesting and not that intuitive
 to start with , but think this way , instance of Expr should return a
 function that takes in a Map and spits out a Maybe. Where you get the Map
-is consired out of context for the instance that we are trying to build.
+is consired out of context for the instance that we are trying to build.ww
 -}
 instance HasVars (M.Map String Integer -> Maybe Integer) where
  var str =  \m -> M.lookup str m
@@ -88,13 +88,16 @@ instance HasVars (M.Map String Integer -> Maybe Integer) where
 instance Expr  (M.Map String Integer -> Maybe Integer) where
  lit x = \_ -> Just x
  add x y = \m -> case (x m , y m) of
- 					(Just a , Just b) -> Just (a + b)
- 					_ -> Nothing
+ 				  (Just a , Just b) -> Just (a + b)
+ 				  _ -> Nothing
  mul x y = \m -> case (x m , y m) of
- 					(Just a , Just b) -> Just (a * b)
- 					_ -> Nothing 						
+ 				  (Just a , Just b) -> Just (a * b)
+ 				  _ -> Nothing 						
 
 withVars :: [(String, Integer)]
           -> (M.Map String Integer -> Maybe Integer)
           -> Maybe Integer
-withVars vs exp = exp $ M.fromList vs          
+withVars vs exp = exp $ M.fromList vs   
+
+reify1 :: VarExprT -> VarExprT
+reify1 = id       
