@@ -26,3 +26,5 @@ score x | (elem (toUpper x) "JX")  = Score 8
 score x | (elem (toUpper x) "QZ")  = Score 10
 score _ = Score 0
 
+
+
