@@ -1,6 +1,7 @@
 --JoinList.hs
 {-# LANGUAGE GeneralizedNewtypeDeriving
-           , ScopedTypeVariables
+           , ScopedTypeVariables ,
+           FlexibleInstances , InstanceSigs
    #-}
 
 module JoinList where
@@ -8,6 +9,8 @@ module JoinList where
 import Data.Monoid
 
 import Sized
+import Buffer
+import Scrabble
 
 newtype Sum1 a = Sum1 a deriving (Eq, Ord, Num, Show)
 
@@ -171,6 +174,12 @@ takeJ n t@(Append m a b) = if ( n >= (getSize (size m)))
 	                        	  then (Append ((tag a) <> (tag (takeJ (n - (getSize (size (tag a)))) b))) a (takeJ (n - (getSize (size (tag a)))) b))
 	                        	  else 	takeJ n a
 
+scoreString :: String -> Score
+scoreString xs = foldl (\acc a -> acc <> (score a)) mempty xs
+
+scoreLine :: String -> JoinList Score String
+scoreLine xs = Single (scoreString xs) xs
+ 
 
 
 
