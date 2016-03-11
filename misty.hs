@@ -16,7 +16,7 @@ class Misty m where
  --Exercise 6
  -- ( use banana and / or unicorn )
  furry' :: (a -> b) -> m a -> m b
- furry' func = banana (\a -> unicorn (func a))
+ furry' func = banana $ unicorn . func
 
 instance Misty [] where
  unicorn = (: [])
@@ -55,5 +55,5 @@ instance Fluffy (State s) where
 instance Misty (State s) where
 	unicorn = \a1 -> State (\s1 -> (s1 , a1))
 	banana :: (a -> State s b) -> State s a -> State s b
-	banana f (State sta) = State (\s1 -> (s1 , snd ((state (f (snd (sta s1)))) s1)))
+	banana f (State sta) = State (\s1 -> (s1 , snd ((state (f (snd (sta s1)))) (fst (sta s1)))))
 
